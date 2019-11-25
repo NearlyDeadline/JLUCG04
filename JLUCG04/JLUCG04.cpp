@@ -167,6 +167,11 @@ void CAboutDlg::DoDataExchange(CDataExchange* pDX)
 }
 
 BEGIN_MESSAGE_MAP(CAboutDlg, CDialogEx)
+//	ON_WM_LBUTTONDOWN()
+//	ON_WM_LBUTTONUP()
+//	ON_WM_RBUTTONDBLCLK()
+//	ON_WM_RBUTTONDOWN()
+//	ON_WM_RBUTTONUP()
 END_MESSAGE_MAP()
 
 // 用于运行对话框的应用程序命令
@@ -177,6 +182,3 @@ void CJLUCG04App::OnAppAbout()
 }
 
 // CJLUCG04App 消息处理程序
-
-
-
