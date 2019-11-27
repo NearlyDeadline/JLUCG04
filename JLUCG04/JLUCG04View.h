@@ -46,8 +46,11 @@ private:
 	COLORREF ResultColor = RGB(0, 0, 255); //结果颜色
 	CPoint ClipRegionStartPoint; //裁剪区域起点
 	CPoint ClipRegionEndPoint; //裁剪区域终点
+	bool HaveClipRegion = false; //是否已有裁剪区域，需要覆盖
 	CArray<CPoint, CPoint> PolygonPoints; //原多边形
+	CArray<CPoint, CPoint> TempPolygonPoints; //正在画的多边形
 	CArray<CPoint, CPoint> ClippedPolygonPoints; //裁剪后的多边形
+	CArray<bool, bool> IsExtraPoint; //裁剪多边形中的点是否为新产生的交点
 	CPoint DrawStartPoint; //画图起点
 	CPoint DrawEndPoint; //画图终点
 	int DrawType = 0; //0代表不画线，1代表画裁剪区域，2代表画多边形
@@ -58,11 +61,16 @@ public:
 	afx_msg void OnRButtonDown(UINT nFlags, CPoint point);
 	afx_msg void OnRButtonUp(UINT nFlags, CPoint point);
 	afx_msg void OnMouseMove(UINT nFlags, CPoint point);
-	void DDALine(CDC* pDC, int x1, int y1, int x2, int y2, COLORREF color);
+	//void DDALine(CDC* pDC, int x1, int y1, int x2, int y2, COLORREF color);
 private:
 	void SutherlandHodgman(CDC* pDC);
 public:
 	afx_msg void OnChar(UINT nChar, UINT nRepCnt, UINT nFlags);
+private:
+	int Cut_Top();
+	int Cut_Right();
+	int Cut_Bottom();
+	int Cut_Left();
 };
 
 #ifndef _DEBUG  // JLUCG04View.cpp 中的调试版本
