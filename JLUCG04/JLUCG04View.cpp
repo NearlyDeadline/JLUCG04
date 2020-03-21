@@ -150,7 +150,7 @@ void CJLUCG04View::OnRButtonDblClk(UINT nFlags, CPoint point)
 		pDC->SetROP2(R2_NOTXORPEN);
 		CPen pen(PS_SOLID, 1, PolygonColor);
 		pDC->SelectObject(&pen);
-		int n = PolygonPoints.GetSize();
+		int n = PolygonPoints.GetCount();
 		if (n > 0) {//把上次图形重画一遍，覆盖掉
 			pDC->MoveTo(PolygonPoints[0]);
 			for (int i = 0; i < n - 1; i++) {
@@ -189,14 +189,15 @@ void CJLUCG04View::SutherlandHodgman(CDC* pDC)
 	m += Cut_Right();
 	m += Cut_Top();
 	m += Cut_Left();
+	int n = ClippedPolygonPoints.GetCount();
 	CPen penP(PS_SOLID, 1, PolygonColor);
-	CPen penR(PS_SOLID, 3, ResultColor);
+	CPen penR(PS_SOLID, 1, ResultColor);
 	pDC->MoveTo(ClippedPolygonPoints[0]);
 	for (int i = 0; i < m - 1; i++) {
 		if (IsExtraPoint[i] || IsExtraPoint[i + 1]) {
 			//产生新交点，将裁剪区域重画一遍
-			//pDC->SelectObject(&penP);
-			//pDC->LineTo(ClippedPolygonPoints[i+1]);
+			pDC->SelectObject(&penP);
+			pDC->LineTo(ClippedPolygonPoints[i+1]);
 			//DDALine(pDC, ClippedPolygonPoints[i].x, ClippedPolygonPoints[i].y, ClippedPolygonPoints[i + 1].x, ClippedPolygonPoints[i + 1].y, ClipRegionColor);
 		    //这条边为新产生的结果边
 			pDC->SelectObject(&penR);
@@ -307,7 +308,7 @@ int CJLUCG04View::Cut_Top()
 	int c1, c2;
 	int m = 0;
 	int ty = max(ClipRegionStartPoint.y, ClipRegionEndPoint.y);
-	int n = PolygonPoints.GetSize();
+	int n = PolygonPoints.GetCount();
 	for (int i = 0; i < n; i++) {
 		P = PolygonPoints[i];
 		if (i != 0) {
@@ -353,7 +354,7 @@ int CJLUCG04View::Cut_Right()
 	int c1, c2;
 	int m = 0;
 	int rx = max(ClipRegionStartPoint.x, ClipRegionEndPoint.x);
-	int n = PolygonPoints.GetSize();
+	int n = PolygonPoints.GetCount();
 	for (int i = 0; i < n; i++) {
 		P = PolygonPoints[i];
 		if (i != 0) {
@@ -399,7 +400,7 @@ int CJLUCG04View::Cut_Bottom()
 	int c1, c2;
 	int m = 0;
 	int by = min(ClipRegionStartPoint.y, ClipRegionEndPoint.y);
-	int n = PolygonPoints.GetSize();
+	int n = PolygonPoints.GetCount();
 	for (int i = 0; i < n; i++) {
 		P = PolygonPoints[i];
 		if (i != 0) {
@@ -445,7 +446,7 @@ int CJLUCG04View::Cut_Left()
 	int c1, c2;
 	int m = 0;
 	int lx = min(ClipRegionStartPoint.x, ClipRegionEndPoint.x);
-	int n = PolygonPoints.GetSize();
+	int n = PolygonPoints.GetCount();
 	for (int i = 0; i < n; i++) {
 		P = PolygonPoints[i];
 		if (i != 0) {
